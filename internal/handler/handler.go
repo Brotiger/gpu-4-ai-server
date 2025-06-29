@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"gpu-4-ai-server/internal/types"
 	"gpu-4-ai-server/internal/service"
+	"gpu-4-ai-server/internal/types"
+
 	"github.com/Brotiger/gpu-4-ai-worker/proto"
+	"github.com/gofiber/fiber/v2"
 )
 
 type Handler struct {
@@ -34,11 +35,20 @@ func (h *Handler) HandleGenerate(c *fiber.Ctx) error {
 	})
 }
 
+func (h *Handler) HandleHealth(c *fiber.Ctx) error {
+	return c.JSON(fiber.Map{"status": "ok"})
+}
+
+func (h *Handler) HandleVersion(c *fiber.Ctx) error {
+	return c.JSON(fiber.Map{"version": "0.5.1"})
+}
+
 func (h *Handler) HandleTags(c *fiber.Ctx) error {
 	resp, err := h.Svc.Tags()
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
+
 	return c.JSON(types.TagsResponse{Models: resp.Models})
 }
 
@@ -90,4 +100,4 @@ func (h *Handler) HandleDelete(c *fiber.Ctx) error {
 	return c.JSON(types.DeleteResponse{Status: resp.Status})
 }
 
-// TODO: Реализация балансировки между воркерами 
+// TODO: Реализация балансировки между воркерами

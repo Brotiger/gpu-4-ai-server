@@ -32,8 +32,8 @@ type ShowRequest struct {
 	Model string `json:"model"`
 }
 type ShowResponse struct {
-	Model string `json:"model"`
-	Details map[string]any `json:"details"`
+	Model   string            `json:"model"`
+	Details map[string]string `json:"details"`
 }
 
 // /api/pull
@@ -62,4 +62,4 @@ type DeleteRequest struct {
 }
 type DeleteResponse struct {
 	Status string `json:"status"`
-} 
+}
